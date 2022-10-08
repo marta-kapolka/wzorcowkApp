@@ -9,7 +9,14 @@ export function PointsGroupsField(props: Props) {
 
   return (
     <>
-      <label htmlFor="points-groups-field">Dej punkty - podziel ',' i ';'</label>
+      <label htmlFor="points-groups-field">
+        <p className="text-xl font-bold">Dej punkty!</p>
+        <p className="text-xl">Stowarzysze podziel znakiem
+          <span className="font-bold"> ',' </span>
+          , a grupy znakiem
+          <span className="font-bold"> ';' </span>
+        </p>
+      </label>
       <textarea
         rows={16}
         value={props.value}
