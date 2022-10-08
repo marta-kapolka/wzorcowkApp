@@ -22,7 +22,7 @@ export function Field(props: Props) {
     null;
 
   const value = props.type !== FieldType.Input ?
-    <p className="absolute top-1 left-1 text-xs">({props.pointPuncherNumber?.toString()})</p> :
+    <p className="absolute top-1 left-1 text-xs text-gray-500">({props.pointPuncherNumber?.toString()})</p> :
     null;
 
   const image = props.type !== FieldType.Input ?
@@ -31,7 +31,7 @@ export function Field(props: Props) {
 
   return (
     <div className="relative w-16 h-16 p-1 border border-black border-solid">
-      <p className="absolute top-1 right-1 text-xs font-bold">{description}</p>
+      <p className="absolute top-1 right-1 text-xs text-gray-500 font-bold">{description}</p>
       {input}
       {value}
       {image}
