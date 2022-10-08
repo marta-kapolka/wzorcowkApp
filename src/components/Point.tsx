@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { getFakePointNumbers } from "../domain/get-fake-point-numbers";
 import { FieldType } from "../domain/enums";
 import { Field } from "./Field";
-import { FAKE_POINTS_FIELDS_AMOUNT } from "../domain/data";
 
 interface Props {
   number: number;
