@@ -29,11 +29,6 @@ export function App() {
   return (
     <div className="relative">
       <div className="flex flex-col p-10">
-        {/* <div className="flex justify-center">
-          <button className="bg-transparent hover:bg-teal-700 text-teal-700 font-semibold hover:text-white py-2 px-4 border border-teal-700 hover:border-transparent rounded m-2" onClick={saveData}>Zapisz i nie zgub!</button>
-          <button className="bg-transparent hover:bg-teal-700 text-teal-700 font-semibold hover:text-white py-2 px-4 border border-teal-700 hover:border-transparent rounded m-2" onClick={getData}>Oddaj zapisane!</button>
-          <button className="bg-transparent hover:bg-teal-700 text-teal-700 font-semibold hover:text-white py-2 px-4 border border-teal-700 hover:border-transparent rounded m-2" onClick={downloadData}>Dej mnie na dysk!</button>
-        </div> */}
         <Card
           pointsGroups={pointsGroups}
           pointsAmount={24}
