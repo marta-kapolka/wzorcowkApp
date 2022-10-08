@@ -1,4 +1,4 @@
-export function getPointGroupsFromText(text: string): number[][] {
+export function getPointsGroupsFromText(text: string): number[][] {
   const groups = text.split(";")
     .map(group => group.trim())
       .map(group => group.split(",")
