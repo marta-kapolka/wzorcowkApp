@@ -78,17 +78,19 @@ export function App() {
   },
   [ pointsGroupsString ])
 
-  const cards = coursesConfiguration.map(course => {
-    return <div className="flex flex-col p-10 pl-14">
-      <Card
-        pointsGroups={pointsGroups}
-        courseName={course.name}
-        pointsAmount={course.pointsAmount}
-        baseTimeLimit={course.baseTimeLimit}
-        additionalTimeLimit={course.additionalTimeLimit}
-        task={course.task}
-      />
-    </div>
+  const cards = coursesConfiguration
+    .filter(course => !!course.pointsAmount)
+    .map(course => {
+      return <div className="flex flex-col p-10 pl-14">
+        <Card
+          pointsGroups={pointsGroups}
+          courseName={course.name}
+          pointsAmount={course.pointsAmount}
+          baseTimeLimit={course.baseTimeLimit}
+          additionalTimeLimit={course.additionalTimeLimit}
+          task={course.task}
+        />
+      </div>
   })
 
   return (
