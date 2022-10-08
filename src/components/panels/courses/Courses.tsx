@@ -57,7 +57,6 @@ export function Courses(props: Props) {
         <div className="flex justify-center my-12">
           <Button
             text={"Takie trasy będą!"}
-            color="indigo"
             onClick={() => props.handleAddingCoursesConfiguration(courseFormsData)}
           />
         </div>
