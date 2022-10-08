@@ -9,9 +9,12 @@ interface Props {
 }
 
 export function Point(props: Props) {
-  const [ mainPointPuncherNumber, setMainPointPuncherNumber ] = useState(0);
+  const [ mainPointPuncherNumber, setMainPointPuncherNumber ] = useState<number | undefined>(undefined);
 
-  const fakePointNumbers = getFakePointNumbers(mainPointPuncherNumber, props.pointsGroups);
+  const fakePointNumbers = mainPointPuncherNumber ?
+    getFakePointNumbers(mainPointPuncherNumber, props.pointsGroups) :
+    [];
+    
   const fakePoints: JSX.Element[] = [];
 
   const fakePointsFieldsAmount = Math.max(...props.pointsGroups.map(group => group.length - 1)) + 1
@@ -31,9 +34,13 @@ export function Point(props: Props) {
         number={props.number}
         mainPointPuncherNumber={mainPointPuncherNumber}
         handlePuncherNumberChange={(value) => setMainPointPuncherNumber(value)}
-        ></Field>
+      />
       <br/>
-      <Field type={FieldType.Main} number={props.number} pointPuncherNumber={mainPointPuncherNumber}></Field>
+      <Field
+        type={FieldType.Main}
+        number={props.number}
+        pointPuncherNumber={mainPointPuncherNumber}
+      />
       {fakePoints}
     </div>
   )

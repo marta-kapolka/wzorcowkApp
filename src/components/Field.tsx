@@ -5,33 +5,43 @@ import { Image } from "./Image";
 
 interface Props {
   type: FieldType;
-  number: number;
+  number: number | undefined;
   pointPuncherNumber?: number;
   mainPointPuncherNumber?: number;
   handlePuncherNumberChange?: (value: number) => void;
 }
 
 export function Field(props: Props) {
-  const description = props.type !== FieldType.Fake ? props.number.toString() : "";
+  const description = props.type !== FieldType.Fake ?
+    <p className="absolute top-1 right-1 text-xs text-gray-500 font-bold">
+      {props.number?.toString()}
+    </p> :
+    "";
 
   const input = props.type === FieldType.Input ?
     <FieldInput
       value={props.mainPointPuncherNumber || undefined }
       handlePuncherNumberChange={props.handlePuncherNumberChange!}
-    ></FieldInput> :
+    /> :
     null;
 
   const value = props.type !== FieldType.Input ?
-    <p className="absolute top-1 left-1 text-xs text-gray-500">({props.pointPuncherNumber?.toString()})</p> :
+    <p className="absolute top-1 left-1 text-xs text-gray-500">
+      {
+        props.pointPuncherNumber?.toString() ?
+        `(${props.pointPuncherNumber?.toString()})` :
+        ""
+      }
+    </p> :
     null;
 
   const image = props.type !== FieldType.Input ?
-    <Image number={props.pointPuncherNumber!}></Image> :
+    <Image number={props.pointPuncherNumber!}/> :
     null;
 
   return (
     <div className="relative w-16 h-16 p-1 border border-black border-solid">
-      <p className="absolute top-1 right-1 text-xs text-gray-500 font-bold">{description}</p>
+      {description}
       {input}
       {value}
       {image}
