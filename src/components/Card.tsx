@@ -16,7 +16,7 @@ export function Card(props: Props) {
   const points: JSX.Element[] = [];
   
   for (let i = 1; i <= props.pointsAmount; i++) {
-    points.push(<Point number={i} pointsGroups={props.pointsGroups}></Point>)
+    points.push(<Point number={i} pointsGroups={props.pointsGroups} key={i.toString()}></Point>)
   }
   
   return (
