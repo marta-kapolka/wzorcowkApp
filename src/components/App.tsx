@@ -5,10 +5,19 @@ import { Card } from "./Card";
 import { PointsGroups } from "./panels/group-points/PointsGroups";
 import { Courses } from "./panels/courses/Courses";
 
-const POINTS_GROUPS: number[][] = [];
+const ALL_POSSIBLE_COURSES = [
+  CourseName.TZ,
+  CourseName.TU,
+  CourseName.TT,
+  CourseName.TP,
+  CourseName.TP_TD,
+  CourseName.TD,
+  CourseName.TN,
+]
 
 export interface CourseConfiguration {
   name: CourseName;
+  isSelected: boolean;
   pointsAmount: number;
   baseTimeLimit: number;
   additionalTimeLimit: number;
@@ -16,59 +25,53 @@ export interface CourseConfiguration {
 }
 
 export function App() {
-  const [ pointsGroupsString, setPointsGroupsString ] = useState(setInitialPointsGroupsString);
-  const [ pointsGroups, setPointsGroups ] = useState(POINTS_GROUPS);
-  const [ coursesConfiguration, setCoursesConfiguration ] = useState<CourseConfiguration[]>(
-    [
-      {
-        name: CourseName.TZ,
-        pointsAmount: 0,
-        baseTimeLimit: 0,
-        additionalTimeLimit: 0,
-        task: ""
-      },
-      {
-        name: CourseName.TU,
-        pointsAmount: 0,
-        baseTimeLimit: 0,
-        additionalTimeLimit: 0,
-        task: ""
-      },
-      {
-        name: CourseName.TT,
-        pointsAmount: 0,
-        baseTimeLimit: 0,
-        additionalTimeLimit: 0,
-        task: ""
-      },
-      {
-        name: CourseName.TP_TD,
-        pointsAmount: 0,
-        baseTimeLimit: 0,
-        additionalTimeLimit: 0,
-        task: ""
-      },
-      {
-        name: CourseName.TN,
-        pointsAmount: 0,
-        baseTimeLimit: 0,
-        additionalTimeLimit: 0,
-        task: ""
-      }
-    ]
-  )
+  const [ pointsGroupsString, setPointsGroupsString ] = useState<string>(setInitialPointsGroupsString);
+  const [ pointsGroups, setPointsGroups ] = useState<number[][]>([]);
+  const [ coursesConfiguration, setCoursesConfiguration ] = useState<CourseConfiguration[]>(setInitialCoursesConfiguration)
+
+  function setInitialPointsGroupsString(): string {
+    const localStorageSavedPointsGroupsString = localStorage.getItem("wzorcowkAppPointsGroupsString");
+    return localStorageSavedPointsGroupsString || "";
+  }
+
+  function setInitialCoursesConfiguration(): CourseConfiguration[] {
+    const configuration = ALL_POSSIBLE_COURSES
+      .map(course => {
+        return {
+          name: course,
+          isSelected: false,
+          pointsAmount: 0,
+          baseTimeLimit: 0,
+          additionalTimeLimit: 0,
+          task: ""
+        }
+      })
+    return configuration; 
+  }
 
   function handleAddingPointsGroupsData(pointsGroupsString: string): void {
     setPointsGroupsString(pointsGroupsString);
   }
 
-  function handleAddingCoursesConfiguration(coursesConfiguration: CourseConfiguration[]): void {
+  function handleCoursesConfigurationAdd(coursesConfiguration: CourseConfiguration[]): void {
     setCoursesConfiguration(coursesConfiguration);
   }
 
-  function setInitialPointsGroupsString(): string {
-    const localStorageSavedPointsGroupsString = localStorage.getItem("wzorcowkAppPointsGroupsString");
-    return localStorageSavedPointsGroupsString || "";
+  function handleCourseSelect(courseToChange: CourseName): void {
+    const newCoursesConfiguration = [ ...coursesConfiguration ];
+
+    const courseConfigurationToChange = newCoursesConfiguration.find(course => course.name === courseToChange);
+
+    if (courseConfigurationToChange) {
+      courseConfigurationToChange.isSelected = !courseConfigurationToChange.isSelected
+    }
+    
+    if (courseConfigurationToChange) {
+      const courseConfigurationToChangeIndex = newCoursesConfiguration.indexOf(courseConfigurationToChange);
+      newCoursesConfiguration.splice(courseConfigurationToChangeIndex, 1, courseConfigurationToChange)
+    }
+
+    setCoursesConfiguration(newCoursesConfiguration)
   }
 
   useEffect((): void => {
@@ -79,9 +82,9 @@ export function App() {
   [ pointsGroupsString ])
 
   const cards = coursesConfiguration
-    .filter(course => !!course.pointsAmount)
+    .filter(course => course.isSelected)
     .map(course => {
-      return <div className="flex flex-col p-10 pl-14">
+      return <div className="flex flex-col p-10 pl-20" key={course.name}>
         <Card
           pointsGroups={pointsGroups}
           courseName={course.name}
@@ -93,11 +96,21 @@ export function App() {
       </div>
   })
 
+  const noCardsText =
+  <>
+    <p className="text-xl text-center text-red-700 font-bold mt-16 w-full">Ale wybierz jakieś trasy!</p>
+    <p className="text-xl text-center text-red-700 mt-4 w-full">Szukaj pod fioletowym wysuwaczem</p>
+  </>
+
   return (
-    <div className="relative">
+    <div className="relative mb-16">
       <PointsGroups pointsGroupsString={pointsGroupsString} handleAddingPointsGroupsData={handleAddingPointsGroupsData} />
-      <Courses coursesConfiguration={coursesConfiguration} handleAddingCoursesConfiguration={handleAddingCoursesConfiguration}/>
-      {cards}
+      <Courses
+        coursesConfiguration={coursesConfiguration}
+        handleCoursesConfigurationAdd={handleCoursesConfigurationAdd}
+        handleCourseSelect={handleCourseSelect}
+      />
+      {cards.length ? cards : noCardsText}
     </div>
   )
 }

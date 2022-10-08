@@ -17,7 +17,7 @@ export function CourseForm(props: Props) {
       <div className="flex items-baseline mb-2">
         <label htmlFor={`${formData.name}-points-amount-input`} className="mr-4">Ilość PK</label>
         <input
-          value={formData.pointsAmount}
+          value={formData.pointsAmount || undefined}
           onChange={event => {
             setFormData({
               ...formData,
@@ -33,7 +33,7 @@ export function CourseForm(props: Props) {
       <div className="flex items-baseline mb-2">
         <label htmlFor={`${formData.name}-base-time-limit-input`} className="mr-4">Limit</label>
         <input
-          value={formData.baseTimeLimit}
+          value={formData.baseTimeLimit || undefined}
           onChange={event => {
             setFormData({
               ...formData,
@@ -45,9 +45,9 @@ export function CourseForm(props: Props) {
           min={0}
           className="rounded-lg border border-gray-300 text-center font-bold p-2 h-8 w-12"
         />
-        <label htmlFor={`${formData.name}-additional-time-limit-input`} className="mx-2">+</label>
+        <label htmlFor={`${formData.name}-additional-time-limit-input`} className="mx-2"><span className="font-bold">+</span></label>
         <input
-          value={formData.additionalTimeLimit}
+          value={formData.additionalTimeLimit || undefined}
           onChange={event => {
             setFormData({
               ...formData,

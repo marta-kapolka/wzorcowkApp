@@ -2,10 +2,12 @@ import React, {  useState } from "react";
 import { Button } from "../../shared/Button";
 import { CourseForm } from "./CourseForm";
 import { CourseConfiguration } from "../../../components/App";
+import { CourseName } from "../../../domain/enums";
 
 interface Props {
   coursesConfiguration: CourseConfiguration[];
-  handleAddingCoursesConfiguration: (coursesConfiguration: CourseConfiguration[]) => void;
+  handleCoursesConfigurationAdd: (coursesConfiguration: CourseConfiguration[]) => void;
+  handleCourseSelect: (course: CourseName) => void;
 }
 
 export function Courses(props: Props) {
@@ -33,19 +35,32 @@ export function Courses(props: Props) {
       const newCourseFormsData = [ ...courseFormsData ];
       newCourseFormsData.splice(dataToChangeIndex, 1, courseFormData)
       setCourseFormsData(newCourseFormsData);
-    } else {
-      console.log("old", [
-        ...courseFormsData,
-        courseFormData
-      ])
-      setCourseFormsData([
-        ...courseFormsData,
-        courseFormData
-      ])
     }
   }
 
-  const courseForms = props.coursesConfiguration.map(course => <CourseForm courseConfiguration={course} handleCourseFormChange={handleCourseFormChange}/>)
+  const courseForms = props.coursesConfiguration
+    .filter(course => course.isSelected)
+    .map(course =>
+      <CourseForm
+        key={course.name}
+        courseConfiguration={course}
+        handleCourseFormChange={handleCourseFormChange}
+      />
+    )
+
+  const courses = props.coursesConfiguration
+    .map(course =>
+      <div key={course.name} className="flex justify-baseline my-2">
+        <input
+          className="mr-2 h-6 w-6"
+          id={`${course.name}-select-checkbox`}
+          type="checkbox"
+          checked={course.isSelected}
+          onChange={() => props.handleCourseSelect(course.name)}
+        />
+        <label htmlFor={`${course.name}-select-checkbox`} className="text-xl font-bold mr-6">{course.name}</label>
+      </div>
+    )
 
   return (
     <aside 
@@ -53,11 +68,15 @@ export function Courses(props: Props) {
       id="courses-panel"
     >
       <div className="overflow-auto">
+        <div className="flex flex-wrap mb-4">
+          {courses}
+        </div>
+        <hr className="my-4" />
         {courseForms}
         <div className="flex justify-center my-12">
           <Button
             text={"Takie trasy będą!"}
-            onClick={() => props.handleAddingCoursesConfiguration(courseFormsData)}
+            onClick={() => props.handleCoursesConfigurationAdd(courseFormsData)}
           />
         </div>
       </div>

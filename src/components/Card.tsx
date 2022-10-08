@@ -18,9 +18,11 @@ export function Card(props: Props) {
   for (let i = 1; i <= props.pointsAmount; i++) {
     points.push(<Point number={i} pointsGroups={props.pointsGroups} key={i.toString()}></Point>)
   }
+
+  const noPointsText = <p className="text-xl text-center text-red-700 font-bold my-4 w-full">..no i zapodaj jakieś punkty dla trasy!</p>
   
   return (
-    <div className="pb-16">
+    <>
       <CardDescription
         courseName={props.courseName}
         baseTimeLimit={props.baseTimeLimit}
@@ -28,8 +30,8 @@ export function Card(props: Props) {
         task={props.task}
       ></CardDescription>
       <div className="flex">
-        {points}
+        {points.length ? points : noPointsText}
       </div>
-    </div>
+    </>
   )
 }
