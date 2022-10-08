@@ -25,12 +25,12 @@ export function PointsGroups(props: Props) {
 
   return (
     <aside 
-      className="box-border fixed flex flex-col bg-white h-screen w-1/3 z-10 top-0 left-0 p-6 border-r border-r-4 border-r-solid border-r-teal-700 -translate-x-full transition-all duration-500 ease-in"
+      className="box-border fixed flex flex-col bg-white h-screen w-1/3 min-w-[400px] z-20 top-0 left-0 p-6 border-r border-r-4 border-r-solid border-r-teal-700 -translate-x-full transition-all duration-500 ease-in"
       id="point-groups-panel"
     >
       <PointsGroupsField value={props.pointsGroupsString} handleFieldChange={props.handleAddingPointsGroupsData}/>
       <button 
-        className="absolute top-4 -right-1 translate-x-10 bg-teal-700 rounded-tr-xl rounded-br-xl h-12 w-10 z-20"
+        className="absolute top-4 -right-1 translate-x-10 bg-teal-700 rounded-tr-xl rounded-br-xl h-12 w-10"
         onClick={togglePanel}
       >
         <svg
