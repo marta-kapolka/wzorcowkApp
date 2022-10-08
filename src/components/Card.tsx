@@ -19,7 +19,7 @@ export function Card(props: Props) {
     points.push(<Point number={i} pointsGroups={props.pointsGroups} key={i.toString()}></Point>)
   }
 
-  const noPointsText = <p className="text-xl text-center text-red-700 font-bold my-4 w-full">..no i zapodaj jakieś punkty dla trasy!</p>
+  const noPointsText = <p className="text-xl text-center text-red-700 font-bold my-4 w-full">..no i zapodaj punkty dla trasy {props.courseName}!</p>
   
   return (
     <>

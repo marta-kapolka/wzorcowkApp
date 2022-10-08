@@ -11,11 +11,8 @@ export function PointsGroupsField(props: Props) {
     <>
       <label htmlFor="points-groups-field">
         <p className="text-xl font-bold">Dej punkty!</p>
-        <p className="text-xl">Stowarzysze podziel znakiem
-          <span className="font-bold"> ',' </span>
-          , a grupy znakiem
-          <span className="font-bold"> ';' </span>
-        </p>
+        <p>Stowarzysze podziel<span className="font-bold"> przecinkiem</span>, a grupy <span className="font-bold"> średnikiem</span>.</p>
+        <p>Nie musisz wpisywać punktów, które nie mają żadnych PSów.</p>
       </label>
       <textarea
         rows={16}
