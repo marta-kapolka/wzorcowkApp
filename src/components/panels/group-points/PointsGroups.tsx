@@ -14,10 +14,12 @@ export function PointsGroups(props: Props) {
     const buttonArrow = document.querySelector("#point-groups-panel-button-arrow")
     if (!isPanelVisible) {
       panel?.classList.remove("-translate-x-full");
+      panel?.classList.add("z-10")
       buttonArrow?.classList.add("rotate-180")
       setIsPanelVisible(true)
     } else {
       panel?.classList.add("-translate-x-full")
+      setTimeout(() => panel?.classList.remove("z-10"), 500);
       buttonArrow?.classList.remove("rotate-180")
       setIsPanelVisible(false)
     }
@@ -25,7 +27,7 @@ export function PointsGroups(props: Props) {
 
   return (
     <aside 
-      className="box-border fixed flex flex-col bg-white h-screen w-1/3 min-w-[400px] z-20 top-0 left-0 p-6 border-r border-r-4 border-r-solid border-r-teal-700 -translate-x-full transition-all duration-500 ease-in"
+      className="box-border fixed flex flex-col bg-white h-screen w-1/3 min-w-[400px] top-0 left-0 p-6 border-r border-r-4 border-r-solid border-r-teal-700 -translate-x-full transition-all duration-500 ease-in"
       id="point-groups-panel"
     >
       <PointsGroupsField value={props.pointsGroupsString} handleFieldChange={props.handleAddingPointsGroupsData}/>

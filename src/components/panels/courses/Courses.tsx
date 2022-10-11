@@ -19,12 +19,14 @@ export function Courses(props: Props) {
     const buttonArrow = document.querySelector("#courses-panel-button-arrow")
     if (!isPanelVisible) {
       panel?.classList.remove("-translate-x-full");
-      buttonArrow?.classList.add("rotate-180")
-      setIsPanelVisible(true)
+      panel?.classList.add("z-10");
+      buttonArrow?.classList.add("rotate-180");
+      setIsPanelVisible(true);
     } else {
-      panel?.classList.add("-translate-x-full")
-      buttonArrow?.classList.remove("rotate-180")
-      setIsPanelVisible(false)
+      panel?.classList.add("-translate-x-full");
+      setTimeout(() => panel?.classList.remove("z-10"), 500);
+      buttonArrow?.classList.remove("rotate-180");
+      setIsPanelVisible(false);
     }
   }
 
@@ -64,7 +66,7 @@ export function Courses(props: Props) {
 
   return (
     <aside 
-      className="box-border fixed flex flex-col bg-white h-screen w-1/3 min-w-[400px] z-20 top-0 left-0 p-6 border-r border-r-4 border-r-solid border-r-indigo-700 -translate-x-full transition-all duration-500 ease-in"
+      className="box-border fixed flex flex-col bg-white h-screen w-1/3 min-w-[400px] top-0 left-0 p-6 border-r border-r-4 border-r-solid border-r-indigo-700 -translate-x-full transition-all duration-500 ease-in"
       id="courses-panel"
     >
       <div className="overflow-auto">
