@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { PointsGroupsField } from "./PointsGroupsField";
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
 }
 
 export function PointsGroups(props: Props) {
-  const [ isPanelVisible, setIsPanelVisible] = useState(false);
+  const [ isPanelVisible, setIsPanelVisible ] = useState(false);
 
   function togglePanel() {
     const panel = document.querySelector("#point-groups-panel");
