@@ -17,7 +17,7 @@ export function CourseForm(props: Props) {
       <div className="flex items-baseline mb-2">
         <label htmlFor={`${formData.name}-points-amount-input`} className="mr-4">Ilość PK</label>
         <input
-          value={formData.pointsAmount || undefined}
+          value={formData.pointsAmount}
           onChange={event => {
             setFormData({
               ...formData,
@@ -27,13 +27,13 @@ export function CourseForm(props: Props) {
           id={`${formData.name}-points-amount-input`}
           type="number"
           min={0}
-          className="rounded-lg border border-gray-300 text-center font-bold p-2 h-8 w-12"
+          className="rounded-lg border border-gray-300 text-center font-bold p-2 h-8 w-16"
         />
       </div>
       <div className="flex items-baseline mb-2">
         <label htmlFor={`${formData.name}-base-time-limit-input`} className="mr-4">Limit</label>
         <input
-          value={formData.baseTimeLimit || undefined}
+          value={formData.baseTimeLimit}
           onChange={event => {
             setFormData({
               ...formData,
@@ -43,11 +43,11 @@ export function CourseForm(props: Props) {
           id={`${formData.name}-base-time-limit-input`}
           type="number"
           min={0}
-          className="rounded-lg border border-gray-300 text-center font-bold p-2 h-8 w-12"
+          className="rounded-lg border border-gray-300 text-center font-bold p-2 h-8 w-16"
         />
         <label htmlFor={`${formData.name}-additional-time-limit-input`} className="mx-2"><span className="font-bold">+</span></label>
         <input
-          value={formData.additionalTimeLimit || undefined}
+          value={formData.additionalTimeLimit}
           onChange={event => {
             setFormData({
               ...formData,
@@ -57,7 +57,7 @@ export function CourseForm(props: Props) {
           id={`${formData.name}-additional-time-limit-input`}
           type="number"
           min={0}
-          className="rounded-lg border border-gray-300 text-center font-bold p-2 h-8 w-12"
+          className="rounded-lg border border-gray-300 text-center font-bold p-2 h-8 w-16"
         />
       </div>
       <div className="flex items-baseline mb-2">

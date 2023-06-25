@@ -19,15 +19,30 @@ export function Point(props: Props) {
   const fakePoints: JSX.Element[] = [];
 
   const fakePointsFieldsAmount = Math.max(...props.pointsGroups.map(group => group.length - 1)) + 1
+  let emptyFakeFieldIndex = 0;
 
   fakePointNumbers.map(fakePointNumber => {
-    fakePoints.push(<Field type={FieldType.Fake} description={props.initialDescription} pointPuncherNumber={fakePointNumber}></Field>)
+    fakePoints.push(
+      <Field
+        key={`${description}-${fakePointNumber.toString()})`}
+        type={FieldType.Fake}
+        description={props.initialDescription}
+        pointPuncherNumber={fakePointNumber}
+      />
+    )
   })
 
   while (fakePoints.length < fakePointsFieldsAmount) {
-    fakePoints.push(<Field type={FieldType.Fake} description={props.initialDescription}></Field>)
+    fakePoints.push(
+      <Field
+        key={emptyFakeFieldIndex}
+        type={FieldType.Fake}
+        description={props.initialDescription} 
+      />
+    )
+    emptyFakeFieldIndex++;
   }
-  
+
   return (
     <div className="flex flex-col-reverse self-end">
       <Field
