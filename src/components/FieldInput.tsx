@@ -7,7 +7,7 @@ interface Props {
 
 export function FieldInput(props: Props) {
   return (
-    <div className="absolute bottom-2 left-3 flex">
+    <div className="absolute bottom-1 left-3 flex">
       <input
         placeholder="nr"
         type="number"
