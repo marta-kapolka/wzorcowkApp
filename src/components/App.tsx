@@ -4,6 +4,7 @@ import { CourseName } from "../domain/enums";
 import { Card } from "./Card";
 import { PointsGroups } from "./panels/group-points/PointsGroups";
 import { Courses } from "./panels/courses/Courses";
+import { jsPDF } from "jspdf";
 
 const ALL_POSSIBLE_COURSES = [
   CourseName.TZ,
@@ -74,6 +75,28 @@ export function App() {
     setCoursesConfiguration(newCoursesConfiguration)
   }
 
+  function downloadPdf() {
+    coursesConfiguration
+      .forEach(course => {
+        const pdfDocument = new jsPDF({
+          orientation: 'l',
+          unit: 'mm',
+          format: 'a4',
+        });
+
+        const elementToPrint = document.querySelector(`#${course.name}`) as HTMLElement;
+
+        if (elementToPrint) {
+          pdfDocument.html(elementToPrint, {
+            callback: () => {pdfDocument.save(`wzorcowka-${course.name}.pdf`)},
+            margin: 5,
+            width: 287,
+            windowWidth: Math.max(64 * course.pointsAmount, 1024)
+          });
+        }
+      })
+  }
+
   useEffect((): void => {
     const pointsData = getPointsGroupsFromText(pointsGroupsString);
     setPointsGroups(pointsData);
@@ -110,6 +133,7 @@ export function App() {
         handleCoursesConfigurationAdd={handleCoursesConfigurationAdd}
         handleCourseSelect={handleCourseSelect}
       />
+      <button onClick={downloadPdf}>Dej PDFa</button>
       {cards.length ? cards : noCardsText}
     </div>
   )

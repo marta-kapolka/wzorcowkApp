@@ -5,7 +5,7 @@ export enum FieldType {
 }
 
 export enum CourseName {
-  TP_TD = "TP/TD",
+  TP_TD = "TP_TD",
   TD = "TD",
   TN = "TN",
   TP = "TP",

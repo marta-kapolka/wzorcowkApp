@@ -22,7 +22,7 @@ export function Card(props: Props) {
   const noPointsText = <p className="text-xl text-center text-red-700 font-bold my-4 w-full">..no i zapodaj punkty dla trasy {props.courseName}!</p>
   
   return (
-    <>
+    <div id={props.courseName}>
       <CardDescription
         courseName={props.courseName}
         baseTimeLimit={props.baseTimeLimit}
@@ -32,6 +32,6 @@ export function Card(props: Props) {
       <div className="flex">
         {points.length ? points : noPointsText}
       </div>
-    </>
+    </div>
   )
 }
