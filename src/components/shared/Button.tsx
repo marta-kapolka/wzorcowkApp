@@ -2,16 +2,22 @@ import React from "react"
 
 interface Props {
   text: string;
+  disabled?: boolean;
   onClick: () => void;
 }
 
-export function Button(props: Props) {
+export function Button({text, disabled, onClick}: Props) {
+const className = disabled ?
+  "bg-transparent text-gray-400 text-gray-400 font-semibold py-2 px-4 border border-gray-400 rounded cursor-not-allowed" :
+  "bg-transparent hover:bg-teal-700 text-teal-700 font-semibold hover:text-white py-2 px-4 border border-teal-700 hover:border-transparent rounded"
+
   return (
     <button
-      className="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-700 hover:border-transparent rounded"
-      onClick={props.onClick}
+      className={className}
+      disabled={disabled}
+      onClick={onClick}
     >
-      {props.text}
+      {text}
     </button>
   )
 }

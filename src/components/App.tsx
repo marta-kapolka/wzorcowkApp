@@ -5,6 +5,7 @@ import { Card } from "./Card";
 import { PointsGroups } from "./panels/group-points/PointsGroups";
 import { Courses } from "./panels/courses/Courses";
 import { jsPDF } from "jspdf";
+import { HeaderBar } from "./headerBar/HeaderBar";
 
 const ALL_POSSIBLE_COURSES = [
   CourseName.TZ,
@@ -25,10 +26,13 @@ export interface CourseConfiguration {
   task?: string;
 }
 
-export function App() {
+export function App(): JSX.Element {
   const [ pointsGroupsString, setPointsGroupsString ] = useState<string>(setInitialPointsGroupsString);
   const [ pointsGroups, setPointsGroups ] = useState<number[][]>([]);
-  const [ coursesConfiguration, setCoursesConfiguration ] = useState<CourseConfiguration[]>(setInitialCoursesConfiguration)
+  const [ coursesConfiguration, setCoursesConfiguration ] = useState<CourseConfiguration[]>(setInitialCoursesConfiguration);
+  const [ isPointsGroupsPanelVisible, setIsPointsGroupsPanelVisible ] = useState<boolean>(false);
+  const [ isCoursesPanelVisible, setIsCoursesPanelVisible ] = useState<boolean>(false);
+  const [ isOverlayVisible, setIsOverlayVisible ] = useState<boolean>(false);
 
   function setInitialPointsGroupsString(): string {
     const localStorageSavedPointsGroupsString = localStorage.getItem("wzorcowkAppPointsGroupsString");
@@ -75,7 +79,23 @@ export function App() {
     setCoursesConfiguration(newCoursesConfiguration)
   }
 
-  function downloadPdf() {
+  function showPointsGroupsPanel(): void {
+    setIsPointsGroupsPanelVisible(true);
+  }
+
+  function closePointsGroupsPanel(): void {
+    setIsPointsGroupsPanelVisible(false);
+  }
+
+  function showCoursesPanel(): void {
+    setIsCoursesPanelVisible(true);
+  }
+
+  function closeCoursesPanel(): void {
+    setIsCoursesPanelVisible(false);
+  }
+
+  function handleDownloadAll(): void {
     coursesConfiguration
       .forEach(course => {
         const pdfDocument = new jsPDF({
@@ -101,8 +121,15 @@ export function App() {
     const pointsData = getPointsGroupsFromText(pointsGroupsString);
     setPointsGroups(pointsData);
     localStorage.setItem("wzorcowkAppPointsGroupsString", pointsGroupsString);
-  },
-  [ pointsGroupsString ])
+  }, [ pointsGroupsString ])
+
+  useEffect((): void => {
+    if (isCoursesPanelVisible || isPointsGroupsPanelVisible) {
+      setIsOverlayVisible(true);
+    } else {
+      setIsOverlayVisible(false);
+    }
+  }, [isCoursesPanelVisible, isPointsGroupsPanelVisible])
 
   const cards = coursesConfiguration
     .filter(course => course.isSelected)
@@ -119,21 +146,35 @@ export function App() {
       </div>
   })
 
-  const noCardsText =
-  <>
-    <p className="text-xl text-center text-red-700 font-bold mt-16 w-full">Ale wybierz jakieś trasy!</p>
-    <p className="text-xl text-center text-red-700 mt-4 w-full">Szukaj pod fioletowym wysuwaczem</p>
-  </>
+  const noCardsText = <p className="text-xl text-center text-red-700 font-bold mt-48 w-full">Ale wybierz jakieś trasy!</p>
 
   return (
     <div className="relative mb-16">
-      <PointsGroups pointsGroupsString={pointsGroupsString} handleAddingPointsGroupsData={handleAddingPointsGroupsData} />
+      <PointsGroups
+        isVisible={isPointsGroupsPanelVisible}
+        closePanel={closePointsGroupsPanel}
+        pointsGroupsString={pointsGroupsString}
+        handleAddingPointsGroupsData={handleAddingPointsGroupsData}
+      />
       <Courses
+        isVisible={isCoursesPanelVisible}
+        closePanel={closeCoursesPanel}
         coursesConfiguration={coursesConfiguration}
         handleCoursesConfigurationAdd={handleCoursesConfigurationAdd}
         handleCourseSelect={handleCourseSelect}
       />
-      <button onClick={downloadPdf}>Dej PDFa</button>
+
+      {isOverlayVisible ?
+        <div id="overlay" className="absolute w-screen h-screen bg-white bg-opacity-75 z-30"></div> :
+        null
+      }
+
+      <HeaderBar
+        isAnyCourseSelected={coursesConfiguration.some(course => course.isSelected)}
+        showPointsGroupsPanel={showPointsGroupsPanel}
+        showCoursesPanel={showCoursesPanel}
+        downloadAllHandler={handleDownloadAll}
+      />
       {cards.length ? cards : noCardsText}
     </div>
   )
