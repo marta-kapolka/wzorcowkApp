@@ -14,6 +14,7 @@ export function CardDescription(props: Props) {
     <div className="h-14 p-1">
       <span className="text-3xl font-bold p-1 mr-8">{props.courseName}</span>
       <span className="text-3xl font-bold p-1 mr-8">{props.baseTimeLimit}'+{props.additionalTimeLimit}'</span>
+      <span className="text-3xl font-bold p-1 mr-8">({props.baseTimeLimit + props.additionalTimeLimit}')</span>
       {task}
     </div>
   )

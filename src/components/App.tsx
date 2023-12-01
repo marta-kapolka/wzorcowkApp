@@ -95,8 +95,12 @@ export function App(): JSX.Element {
     setIsCoursesPanelVisible(false);
   }
 
-  function handleDownloadAll(): void {
-    coursesConfiguration
+  function handleDownload(coursesToDownloadNames?: CourseName[]): void {
+    const coursesToDownload = !!coursesToDownloadNames?.length ?
+      coursesConfiguration.filter(course => coursesToDownloadNames.includes(course.name)) :
+      coursesConfiguration;
+
+    coursesToDownload
       .forEach(course => {
         const pdfDocument = new jsPDF({
           orientation: 'l',
@@ -134,7 +138,7 @@ export function App(): JSX.Element {
   const cards = coursesConfiguration
     .filter(course => course.isSelected)
     .map(course => {
-      return <div className="flex flex-col p-10 pl-20" key={course.name}>
+      return <div className="flex flex-col pt-16 px-16" key={course.name}>
         <Card
           pointsGroups={pointsGroups}
           courseName={course.name}
@@ -142,6 +146,7 @@ export function App(): JSX.Element {
           baseTimeLimit={course.baseTimeLimit}
           additionalTimeLimit={course.additionalTimeLimit}
           task={course.task}
+          downloadHandler={handleDownload}
         />
       </div>
   })
@@ -173,7 +178,7 @@ export function App(): JSX.Element {
         isAnyCourseSelected={coursesConfiguration.some(course => course.isSelected)}
         showPointsGroupsPanel={showPointsGroupsPanel}
         showCoursesPanel={showCoursesPanel}
-        downloadAllHandler={handleDownloadAll}
+        downloadHandler={handleDownload}
       />
       {cards.length ? cards : noCardsText}
     </div>
