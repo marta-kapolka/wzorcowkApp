@@ -10,9 +10,7 @@ export function FieldInput(props: Props) {
     <div className="absolute bottom-1 left-3 flex">
       <input
         placeholder="nr"
-        type="number"
-        min={30}
-        max={120}
+        type="text"
         className="w-10 text-lg text-center placeholder-gray-400"
         value={props.value}
         onChange={event => props.handlePuncherNumberChange(Number(event.target.value))}

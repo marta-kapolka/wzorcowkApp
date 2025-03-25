@@ -1,8 +1,9 @@
 export interface Images {
+  30: URL;
   31: URL;
   32: URL;
   33: URL;
-  // 34: URL;
+  34: URL;
   35: URL;
   36: URL;
   37: URL;
@@ -92,13 +93,22 @@ export interface Images {
   121: URL;
   122: URL;
   123: URL;
+  124: URL;
+  125: URL;
+  126: URL;
+  127: URL;
+  128: URL;
+  129: URL;
+  130: URL;
+  131: URL;
 }
 
 export const IMAGE_URLS: Images = {
+  30: new URL("../img/thirty.png", import.meta.url),
   31: new URL("../img/thirty-one.png", import.meta.url),
   32: new URL("../img/thirty-two.png", import.meta.url),
   33: new URL("../img/thirty-three.png", import.meta.url),
-  // 34: new URL("../img/thirty-four.png", import.meta.url),
+  34: new URL("../img/thirty-four.png", import.meta.url),
   35: new URL("../img/thirty-five.png", import.meta.url),
   36: new URL("../img/thirty-six.png", import.meta.url),
   37: new URL("../img/thirty-seven.png", import.meta.url),
@@ -188,4 +198,12 @@ export const IMAGE_URLS: Images = {
   121: new URL("../img/hundred-twenty-one.png", import.meta.url),
   122: new URL("../img/hundred-twenty-two.png", import.meta.url),
   123: new URL("../img/hundred-twenty-three.png", import.meta.url),
+  124: new URL("../img/hundred-twenty-four.png", import.meta.url),
+  125: new URL("../img/hundred-twenty-five.png", import.meta.url),
+  126: new URL("../img/hundred-twenty-six.png", import.meta.url),
+  127: new URL("../img/hundred-twenty-seven.png", import.meta.url),
+  128: new URL("../img/hundred-twenty-eight.png", import.meta.url),
+  129: new URL("../img/hundred-twenty-nine.png", import.meta.url),
+  130: new URL("../img/hundred-thirty.png", import.meta.url),
+  131: new URL("../img/hundred-thirty-one.png", import.meta.url),
 }
