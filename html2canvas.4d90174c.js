@@ -11,6 +11,7 @@
   entry,
   mainEntry,
   parcelRequireName,
+  externals,
   distDir,
   publicUrl,
   devServer
@@ -44,6 +45,9 @@
   function newRequire(name, jumped) {
     if (!cache[name]) {
       if (!modules[name]) {
+        if (externals[name]) {
+          return externals[name];
+        }
         // if we cannot find the module within our internal map or
         // cache jump to the current global require ie. the last bundle
         // that was added to the page.
@@ -90,7 +94,54 @@
 
     function localRequire(x) {
       var res = localRequire.resolve(x);
-      return res === false ? {} : newRequire(res);
+      if (res === false) {
+        return {};
+      }
+      // Synthesize a module to follow re-exports.
+      if (Array.isArray(res)) {
+        var m = {__esModule: true};
+        res.forEach(function (v) {
+          var key = v[0];
+          var id = v[1];
+          var exp = v[2] || v[0];
+          var x = newRequire(id);
+          if (key === '*') {
+            Object.keys(x).forEach(function (key) {
+              if (
+                key === 'default' ||
+                key === '__esModule' ||
+                Object.prototype.hasOwnProperty.call(m, key)
+              ) {
+                return;
+              }
+
+              Object.defineProperty(m, key, {
+                enumerable: true,
+                get: function () {
+                  return x[key];
+                },
+              });
+            });
+          } else if (exp === '*') {
+            Object.defineProperty(m, key, {
+              enumerable: true,
+              value: x,
+            });
+          } else {
+            Object.defineProperty(m, key, {
+              enumerable: true,
+              get: function () {
+                if (exp === 'default') {
+                  return x.__esModule ? x.default : x;
+                }
+                return x[exp];
+              },
+            });
+          }
+        });
+        return m;
+      }
+      return newRequire(res);
     }
 
     function resolve(x) {
@@ -156,7 +207,7 @@
       });
     }
   }
-})({"be381":[function(require,module,exports,__globalThis) {
+})({"42azP":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -288,7 +339,8 @@ if (!parent || !parent.isParcelRequire) {
         if (typeof WebSocket !== 'undefined') try {
             ws = new WebSocket(protocol + '://' + hostname + (port ? ':' + port : '') + '/');
         } catch (err) {
-            if (err.message) console.error(err.message);
+            // Ignore cloudflare workers error.
+            if (err.message && !err.message.includes('Disallowed operation called within global scope')) console.error(err.message);
         }
     }
     if (ws) {
@@ -8466,6 +8518,6 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
     return html2canvas;
 });
 
-},{}]},["be381"], null, "parcelRequire9f1f")
+},{}]},["42azP"], null, "parcelRequire9f1f", {})
 
 //# sourceMappingURL=html2canvas.4d90174c.js.map
